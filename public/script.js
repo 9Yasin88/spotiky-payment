@@ -1,6 +1,6 @@
 const buyButtons = document.querySelectorAll("[data-buy]");
 
-/* Premium ambient UI audio — deliberately subtle, layered and non-annoying. */
+/* Luxury UI audio: soft glass, warm air and restrained interaction feedback. */
 let audioContext = null;
 let audioUnlocked = false;
 let lastHoverAt = 0;
@@ -23,118 +23,112 @@ function unlockAudio() {
   audioUnlocked = true;
 }
 
-function createMasterChain(ctx, now) {
-  const master = ctx.createGain();
-  const compressor = ctx.createDynamicsCompressor();
-  const filter = ctx.createBiquadFilter();
-
-  master.gain.setValueAtTime(0.42, now);
-  compressor.threshold.value = -30;
-  compressor.knee.value = 18;
-  compressor.ratio.value = 5;
-  compressor.attack.value = 0.004;
-  compressor.release.value = 0.18;
-  filter.type = "lowpass";
-  filter.frequency.setValueAtTime(4200, now);
-  filter.Q.value = 0.35;
-
-  master.connect(compressor);
-  compressor.connect(filter);
-  filter.connect(ctx.destination);
-  return master;
-}
-
-function premiumChime(baseFrequency, brightness = 0.5, volume = 0.035, duration = 0.28) {
-  if (!audioUnlocked) return;
-  const ctx = getAudioContext();
-  if (!ctx) return;
-  if (ctx.state === "suspended") {
-    ctx.resume().catch(() => {});
-  }
-
-  const now = ctx.currentTime;
-  const master = createMasterChain(ctx, now);
-  const frequencies = [baseFrequency, baseFrequency * 1.5, baseFrequency * 2.01];
-
-  frequencies.forEach((frequency, index) => {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const filter = ctx.createBiquadFilter();
-    const partialVolume = volume * (index === 0 ? 1 : index === 1 ? 0.42 : 0.14) * (0.8 + brightness * 0.2);
-
-    osc.type = index === 0 ? "sine" : "triangle";
-    osc.frequency.setValueAtTime(frequency, now);
-    osc.detune.setValueAtTime(index === 1 ? -4 : index === 2 ? 7 : 0, now);
-    osc.frequency.exponentialRampToValueAtTime(Math.max(90, frequency * 0.985), now + duration);
-
-    filter.type = "lowpass";
-    filter.frequency.setValueAtTime(1100 + brightness * 3500, now);
-    filter.Q.value = 0.45;
-
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(partialVolume, now + 0.008);
-    gain.gain.exponentialRampToValueAtTime(partialVolume * 0.18, now + duration * 0.45);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(master);
-    osc.start(now);
-    osc.stop(now + duration + 0.03);
-  });
-}
-
-function premiumWhoosh(position = 0.5) {
+function luxuryBell(frequency, volume = 0.018, duration = 0.55, detune = 0) {
   if (!audioUnlocked) return;
   const ctx = getAudioContext();
   if (!ctx) return;
   if (ctx.state === "suspended") ctx.resume().catch(() => {});
 
   const now = ctx.currentTime;
-  const master = createMasterChain(ctx, now);
+  const master = ctx.createGain();
+  const compressor = ctx.createDynamicsCompressor();
+  master.gain.setValueAtTime(0.7, now);
+  compressor.threshold.value = -34;
+  compressor.knee.value = 22;
+  compressor.ratio.value = 3;
+  compressor.attack.value = 0.006;
+  compressor.release.value = 0.28;
+  master.connect(compressor);
+  compressor.connect(ctx.destination);
+
+  [
+    { ratio: 1, level: 1, type: "sine" },
+    { ratio: 2.01, level: 0.22, type: "sine" },
+    { ratio: 3.99, level: 0.055, type: "triangle" }
+  ].forEach((partial, index) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+    const f = frequency * partial.ratio;
+
+    osc.type = partial.type;
+    osc.frequency.setValueAtTime(f, now);
+    osc.detune.setValueAtTime(detune + (index === 1 ? -3 : index === 2 ? 5 : 0), now);
+
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(Math.min(5200, f * 3.2), now);
+    filter.Q.value = 0.25;
+
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(volume * partial.level, now + 0.006);
+    gain.gain.exponentialRampToValueAtTime(volume * partial.level * 0.28, now + duration * 0.18);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(master);
+    osc.start(now);
+    osc.stop(now + duration + 0.04);
+  });
+}
+
+function velvetHover(position = 0.5) {
+  if (!audioUnlocked) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  if (ctx.state === "suspended") ctx.resume().catch(() => {});
+
+  const now = ctx.currentTime;
+  const master = ctx.createGain();
+  const filter = ctx.createBiquadFilter();
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
-  const filter = ctx.createBiquadFilter();
 
-  const start = 220 + position * 180;
-  const end = 520 + position * 900;
+  const start = 180 + position * 90;
+  const end = 300 + position * 280;
+
   osc.type = "sine";
   osc.frequency.setValueAtTime(start, now);
-  osc.frequency.exponentialRampToValueAtTime(end, now + 0.14);
+  osc.frequency.exponentialRampToValueAtTime(end, now + 0.19);
 
   filter.type = "lowpass";
-  filter.frequency.setValueAtTime(1000 + position * 2800, now);
-  filter.frequency.exponentialRampToValueAtTime(2800 + position * 2600, now + 0.14);
-  filter.Q.value = 0.5;
+  filter.frequency.setValueAtTime(700 + position * 1100, now);
+  filter.frequency.exponentialRampToValueAtTime(1500 + position * 1900, now + 0.19);
+  filter.Q.value = 0.35;
 
   gain.gain.setValueAtTime(0.0001, now);
-  gain.gain.exponentialRampToValueAtTime(0.012, now + 0.018);
-  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
+  gain.gain.exponentialRampToValueAtTime(0.0065, now + 0.025);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
 
+  master.gain.setValueAtTime(0.72, now);
   osc.connect(filter);
   filter.connect(gain);
   gain.connect(master);
+  master.connect(ctx.destination);
   osc.start(now);
-  osc.stop(now + 0.19);
-}
-
-function hoverSound(element, event) {
-  const nowMs = performance.now();
-  if (nowMs - lastHoverAt < 110) return;
-  lastHoverAt = nowMs;
-
-  const rect = element.getBoundingClientRect();
-  const position = rect.width > 0 ? Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width)) : 0.5;
-  premiumWhoosh(position);
+  osc.stop(now + 0.25);
 }
 
 function clickSound() {
   const nowMs = performance.now();
-  if (nowMs - lastClickAt < 70) return;
+  if (nowMs - lastClickAt < 100) return;
   lastClickAt = nowMs;
 
-  premiumChime(196, 0.45, 0.028, 0.32);
-  window.setTimeout(() => premiumChime(294, 0.72, 0.015, 0.24), 26);
+  /* A soft two-note glass interval instead of a generic beep. */
+  luxuryBell(392, 0.020, 0.48, -2);
+  window.setTimeout(() => luxuryBell(587.33, 0.008, 0.38, 3), 34);
+}
+
+function hoverSound(element, event) {
+  const nowMs = performance.now();
+  if (nowMs - lastHoverAt < 150) return;
+  lastHoverAt = nowMs;
+
+  const rect = element.getBoundingClientRect();
+  const position = rect.width > 0
+    ? Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width))
+    : 0.5;
+  velvetHover(position);
 }
 
 document.addEventListener("pointerdown", unlockAudio, { once: true, passive: true });
@@ -143,13 +137,12 @@ document.addEventListener("keydown", unlockAudio, { once: true, passive: true })
 const soundElements = document.querySelectorAll("button, a, article, .glass");
 soundElements.forEach((element) => {
   element.addEventListener("pointerenter", (event) => {
-    if (element.matches("button, a, article, .glass")) hoverSound(element, event);
+    hoverSound(element, event);
   }, { passive: true });
 
   element.addEventListener("pointermove", (event) => {
-    if (!element.matches("button, a, article, .glass")) return;
     const nowMs = performance.now();
-    if (nowMs - lastMoveSoundAt < 520) return;
+    if (nowMs - lastMoveSoundAt < 900) return;
     lastMoveSoundAt = nowMs;
     if (element.matches(":hover")) hoverSound(element, event);
   }, { passive: true });
@@ -185,12 +178,10 @@ buyButtons.forEach((button) => {
       }
 
       window.location.assign(data.url);
-
     } catch (error) {
       console.error(error);
       button.disabled = false;
       button.innerHTML = original;
-
       alert("Der PayPal-Checkout ist momentan nicht erreichbar. Bitte versuche es später erneut.");
     }
   });
@@ -236,10 +227,8 @@ document.addEventListener("keydown", (event) => {
 document.querySelectorAll(".magnetic").forEach((element) => {
   element.addEventListener("pointermove", (event) => {
     const rect = element.getBoundingClientRect();
-
     const x = event.clientX - rect.left - rect.width / 2;
     const y = event.clientY - rect.top - rect.height / 2;
-
     element.style.transform = "translate(" + (x * 0.08) + "px," + (y * 0.08) + "px)";
   });
 
