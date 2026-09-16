@@ -80,8 +80,8 @@ document.querySelectorAll(".magnetic").forEach((element) => {
     const x = event.clientX - rect.left - rect.width / 2;
     const y = event.clientY - rect.top - rect.height / 2;
 
-    element.style.transform =
-      `translate(${x * 0.08}px,${y * 0.08}px)`;
+    element.style.transform = "translate(" + (x * 0.08) + "px," + (y * 0.08) + "px)";
+    
   });
 
   element.addEventListener("pointerleave", () => {
