@@ -2,26 +2,20 @@
 const buyButtons = document.querySelectorAll("[data-buy]");
 
 buyButtons.forEach((button) => {
-  const originalHTML = button.innerHTML;
+  const original = button.innerHTML;
 
   button.addEventListener("click", async () => {
-    if (button.disabled) return;
-
     button.disabled = true;
     button.textContent = "PAYPAL WIRD GELADEN…";
 
     try {
       const response = await fetch("/api/create-paypal-order", {
         method: "POST",
-        headers: {
-          "Accept": "application/json"
-        },
+        headers: { "Accept": "application/json" },
         credentials: "same-origin"
       });
 
-      if (!response.ok) {
-        throw new Error("PayPal checkout unavailable");
-      }
+      if (!response.ok) throw new Error("PayPal checkout unavailable");
 
       const data = await response.json();
 
@@ -29,30 +23,25 @@ buyButtons.forEach((button) => {
         throw new Error("Invalid PayPal approval URL");
       }
 
-      window.location.href = data.url;
+      window.location.assign(data.url);
 
     } catch (error) {
       console.error(error);
-
       button.disabled = false;
-      button.innerHTML = originalHTML;
+      button.innerHTML = original;
 
       alert("Der PayPal-Checkout ist momentan nicht erreichbar. Bitte versuche es später erneut.");
     }
   });
 });
 
-/* Button beim Zurückkehren von PayPal wieder aktivieren */
-window.addEventListener("pageshow", function () {
+/* Wenn man von PayPal zurückkommt, Buttons wieder aktivieren */
+window.addEventListener("pageshow", () => {
   buyButtons.forEach((button) => {
     button.disabled = false;
-    button.removeAttribute("disabled");
-
-    if (button.textContent === "PAYPAL WIRD GELADEN…") {
-      button.innerHTML = button.dataset.originalText || "PACK FÜR 5,00 €";
-    }
   });
 });
+
 
 document.querySelectorAll("[data-modal]").forEach((link) => {
   link.addEventListener("click", (event) => {
@@ -60,6 +49,7 @@ document.querySelectorAll("[data-modal]").forEach((link) => {
     document.getElementById(link.dataset.modal)?.classList.add("open");
   });
 });
+
 
 document.querySelectorAll(".modal").forEach((modal) => {
   modal.addEventListener("click", (event) => {
@@ -73,6 +63,7 @@ document.querySelectorAll(".modal").forEach((modal) => {
   });
 });
 
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     document.querySelectorAll(".modal.open").forEach((modal) => {
@@ -81,9 +72,11 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+
 document.querySelectorAll(".magnetic").forEach((element) => {
   element.addEventListener("pointermove", (event) => {
     const rect = element.getBoundingClientRect();
+
     const x = event.clientX - rect.left - rect.width / 2;
     const y = event.clientY - rect.top - rect.height / 2;
 
