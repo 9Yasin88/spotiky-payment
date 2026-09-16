@@ -1,38 +1,82 @@
 <!doctype html>
-<html lang="de">
+<html lang="de-DE">
 <head>
 <meta name="google-site-verification" content="PEN_G1W50OZg09tH1LvSSx5X6Q9EKnZ1uu9pnrNXjrE" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="SPOTIKY – digitales Premium Pack für 5,00 €. Entdecke die SPOTIKY Premium Digital Experience und bezahle sicher über PayPal.">
-<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="SPOTIKY ist eine eigenständige digitale Marke mit einem Premium Pack für 5,00 €. Sichere Zahlung über PayPal und direkte Weiterleitung nach erfolgreicher Zahlung.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="theme-color" content="#050505">
 <meta name="author" content="SPOTIKY">
 <link rel="canonical" href="https://spotiky-payments.onrender.com/">
 <link rel="icon" href="/favicon.png" type="image/png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/favicon.png">
+<link rel="preload" as="image" href="/music-sphere.png" fetchpriority="high">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="SPOTIKY">
 <meta property="og:title" content="SPOTIKY – Premium Pack für 5,00 €">
-<meta property="og:description" content="SPOTIKY – digitales Premium Pack zum festen Preis von 5,00 €.">
+<meta property="og:description" content="SPOTIKY ist eine eigenständige digitale Marke mit einem Premium Pack für 5,00 € und sicherem PayPal Checkout.">
 <meta property="og:url" content="https://spotiky-payments.onrender.com/">
 <meta property="og:image" content="https://spotiky-payments.onrender.com/music-sphere.png">
-<meta property="og:image:alt" content="SPOTIKY grüne Musik-Kugel">
+<meta property="og:image:alt" content="Grüne SPOTIKY Musik-Kugel">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="SPOTIKY – Premium Pack für 5,00 €">
-<meta name="twitter:description" content="SPOTIKY – digitales Premium Pack zum festen Preis von 5,00 €.">
+<meta name="twitter:description" content="SPOTIKY ist eine eigenständige digitale Marke mit einem Premium Pack für 5,00 €.">
 <meta name="twitter:image" content="https://spotiky-payments.onrender.com/music-sphere.png">
-<title>SPOTIKY – Premium Pack für 5,00 € | Offizielle Website</title>
+<title>SPOTIKY – Premium Pack für 5,00 €</title>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "SPOTIKY",
-  "alternateName": "SPOTIKY Premium Pack",
-  "url": "https://spotiky-payments.onrender.com/",
-  "description": "SPOTIKY – digitales Premium Pack zum festen Preis von 5,00 €.",
-  "inLanguage": "de",
-  "publisher": {"@type":"Organization","name":"SPOTIKY","url":"https://spotiky-payments.onrender.com/","logo":"https://spotiky-payments.onrender.com/favicon.png"}
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://spotiky-payments.onrender.com/#website",
+      "name": "SPOTIKY",
+      "alternateName": "SPOTIKY Premium Pack",
+      "url": "https://spotiky-payments.onrender.com/",
+      "description": "SPOTIKY ist eine eigenständige digitale Marke mit einem Premium Pack für 5,00 €.",
+      "inLanguage": "de-DE",
+      "publisher": {"@id": "https://spotiky-payments.onrender.com/#organization"}
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://spotiky-payments.onrender.com/#organization",
+      "name": "SPOTIKY",
+      "url": "https://spotiky-payments.onrender.com/",
+      "logo": "https://spotiky-payments.onrender.com/favicon.png",
+      "email": "support.spokify@gmail.com"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://spotiky-payments.onrender.com/#webpage",
+      "url": "https://spotiky-payments.onrender.com/",
+      "name": "SPOTIKY – Premium Pack für 5,00 €",
+      "description": "SPOTIKY ist eine eigenständige digitale Marke mit einem Premium Pack für 5,00 €. Sichere Zahlung über PayPal.",
+      "inLanguage": "de-DE",
+      "isPartOf": {"@id": "https://spotiky-payments.onrender.com/#website"},
+      "about": {"@id": "https://spotiky-payments.onrender.com/#product"},
+      "primaryImageOfPage": "https://spotiky-payments.onrender.com/music-sphere.png"
+    },
+    {
+      "@type": "Product",
+      "@id": "https://spotiky-payments.onrender.com/#product",
+      "name": "SPOTIKY Premium Pack",
+      "description": "Das SPOTIKY Premium Pack ist das einzige angebotene digitale Pack auf der Website und kostet 5,00 €.",
+      "image": ["https://spotiky-payments.onrender.com/music-sphere.png"],
+      "brand": {"@type": "Brand", "name": "SPOTIKY"},
+      "sku": "SPOTIKY_PACK_001",
+      "offers": {
+        "@type": "Offer",
+        "url": "https://spotiky-payments.onrender.com/#pack",
+        "priceCurrency": "EUR",
+        "price": "5.00",
+        "availability": "https://schema.org/InStock",
+        "seller": {"@id": "https://spotiky-payments.onrender.com/#organization"}
+      }
+    }
+  ]
 }
 </script>
 <link rel="stylesheet" href="/style.css">
@@ -41,39 +85,39 @@
 <div class="noise"></div><div class="aurora a1"></div><div class="aurora a2"></div>
 <header class="nav">
   <a href="/" class="brand"><span class="brand-mark">S</span><span>SPOTIKY</span><small>///</small></a>
-  <nav><a href="#experience">EXPERIENCE</a><a href="#pack">PACK</a><a href="#contact">KONTAKT</a></nav>
-  <button class="nav-buy magnetic" data-buy>5,00 € <span>PACK ↗</span></button>
+  <nav aria-label="Hauptnavigation"><a href="#experience">EXPERIENCE</a><a href="#pack">PACK</a><a href="#contact">KONTAKT</a></nav>
+  <button class="nav-buy magnetic" data-buy aria-label="SPOTIKY Premium Pack für 5,00 Euro kaufen">5,00 € <span>PACK ↗</span></button>
 </header>
 <main>
 <section class="hero" id="top">
   <div class="hero-copy">
     <p class="eyebrow"><i></i> SPOTIKY / PREMIUM DIGITAL EXPERIENCE</p>
     <h1>SPOTIKY<br><strong>PREMIUM</strong><em>PACK.</em></h1>
-    <p class="lead">Ein einziges Angebot. Ein fester Preis. <b>5,00 €.</b> Bezahlt wird sicher über den Checkout — deine Bankdaten werden auf dieser Website niemals angezeigt.</p>
-    <button class="buy magnetic" data-buy>PACK FÜR 5,00 € <span>→</span></button>
+    <p class="lead">SPOTIKY ist eine eigenständige digitale Marke mit einem einzigen Premium Pack. <b>5,00 €.</b> Bezahlt wird sicher über den Checkout — deine Bankdaten werden auf dieser Website niemals angezeigt.</p>
+    <button class="buy magnetic" data-buy aria-label="SPOTIKY Premium Pack für 5,00 Euro kaufen">PACK FÜR 5,00 € <span>→</span></button>
     <div class="micro"><span>PAYPAL CHECKOUT</span><span>€5 FIXED</span><span>ONE PACK</span></div>
   </div>
-  <div class="visual"><div class="orbit o1"></div><div class="orbit o2"></div><div class="glass"><div class="visual-top"><span>SPOTIKY / AUDIO</span><b>LIVE</b></div><img src="/music-sphere.png" alt="Grüne Musik-Kugel als Spotiky Design-Effekt"><div class="visual-bottom"><span>GREEN FREQUENCY</span><strong>€5</strong></div></div></div>
+  <div class="visual"><div class="orbit o1"></div><div class="orbit o2"></div><div class="glass"><div class="visual-top"><span>SPOTIKY / AUDIO</span><b>LIVE</b></div><img src="/music-sphere.png" alt="Grüne SPOTIKY Musik-Kugel"><div class="visual-bottom"><span>GREEN FREQUENCY</span><strong>€5</strong></div></div></div>
 </section>
-<section id="experience" class="section"><div class="section-tag">01 / EXPERIENCE</div><div class="grid"><article><span>01</span><h2>ONE PACK.</h2><p>Kein Preis-Wirrwarr. Auf dieser Seite gibt es nur das Spotiky Pack für 5,00 €.</p></article><article><span>02</span><h2>SECURE.</h2><p>Die Zahlungslogik läuft serverseitig. Kein Zahlungsbetrag aus dem Browser und keine IBAN im Frontend.</p></article><article><span>03</span><h2>DIRECT.</h2><p>Nach erfolgreicher Bezahlung wird der Kauf serverseitig geprüft und anschließend automatisch weitergeleitet.</p></article></div></section>
-<section id="pack" class="section pack"><div class="section-tag">02 / THE ONLY OFFER</div><div class="pack-card"><div class="badge">ONLY PACK</div><div class="pack-top"><span>SPOTIKY / 001</span><span>PREMIUM</span></div><div class="pack-main"><div><h2>SPOTIKY PACK</h2><p>Das einzige Pack auf der Website.</p></div><div class="price"><small>EUR</small>5<span>,00</span></div></div><div class="line"></div><div class="pack-foot"><span>FIXED PRICE / 1 × PACK</span><button class="buy" data-buy>JETZT KAUFEN ↗</button></div></div></section>
-<section id="contact" class="section contact"><div class="section-tag">03 / CONTACT</div><h2>SPOTIKY<br><em>DIRECT.</em></h2><p>Fragen zum Pack? Kontakt per E-Mail.</p><div class="contact-actions"><a href="mailto:support.spokify@gmail.com?subject=SPOTIKY%20Pack">support.spokify@gmail.com ↗</a></div></section>
+<section id="experience" class="section"><div class="section-tag">01 / EXPERIENCE</div><div class="grid"><article><span>01</span><h2>ONE DIGITAL PACK.</h2><p>SPOTIKY bietet auf dieser Website ein einziges digitales Premium Pack zum festen Preis von 5,00 € an.</p></article><article><span>02</span><h2>PAYPAL CHECKOUT.</h2><p>Die Zahlung läuft über den PayPal Checkout. Der feste Betrag von 5,00 € wird serverseitig festgelegt und geprüft.</p></article><article><span>03</span><h2>DIRECT AFTER PAYMENT.</h2><p>Nach erfolgreicher und serverseitig bestätigter Zahlung wird die konfigurierte Zielseite automatisch geöffnet.</p></article></div></section>
+<section id="pack" class="section pack"><div class="section-tag">02 / THE ONLY OFFER</div><div class="pack-card"><div class="badge">ONLY PACK</div><div class="pack-top"><span>SPOTIKY / 001</span><span>PREMIUM</span></div><div class="pack-main"><div><h2>SPOTIKY PACK</h2><p>Das einzige digitale Pack auf der Website.</p></div><div class="price"><small>EUR</small>5<span>,00</span></div></div><div class="line"></div><div class="pack-foot"><span>FIXED PRICE / 1 × PACK</span><button class="buy" data-buy aria-label="SPOTIKY Pack jetzt für 5,00 Euro kaufen">JETZT KAUFEN ↗</button></div></div></section>
+<section id="contact" class="section contact"><div class="section-tag">03 / CONTACT</div><h2>SPOTIKY<br><em>DIRECT.</em></h2><p>Fragen zum SPOTIKY Premium Pack? Kontakt per E-Mail.</p><div class="contact-actions"><a href="mailto:support.spokify@gmail.com?subject=SPOTIKY%20Pack">support.spokify@gmail.com ↗</a></div></section>
 <section id="preview" class="section preview-section">
   <div class="section-tag">04 / PREVIEW</div>
-  <div class="preview-heading"><div><h2>SEE IT<br><em>IN ACTION.</em></h2><p>Ein kurzer Einblick in die Experience.</p></div><span class="preview-count">4K VIDEO + 4K SCREENS</span></div>
+  <div class="preview-heading"><div><h2>SEE IT<br><em>IN ACTION.</em></h2><p>Ein kurzer Einblick in die SPOTIKY digitale Experience.</p></div><span class="preview-count">4K VIDEO + 4K SCREENS</span></div>
   <div class="preview-video-card">
     <div class="preview-meta"><span>01 / VIDEO PREVIEW · 4K</span><span>HIGH QUALITY</span></div>
-    <div class="preview-phone-wrap"><video class="preview-video" poster="/preview-1-4k.webp" muted loop autoplay playsinline controls preload="metadata"><source src="/preview-4k.mp4" type="video/mp4"></video></div>
+    <div class="preview-phone-wrap"><video class="preview-video" poster="/preview-1-4k.webp" muted loop autoplay playsinline controls preload="metadata" aria-label="SPOTIKY Premium Pack Video-Vorschau"><source src="/preview-4k.mp4" type="video/mp4">Dein Browser unterstützt keine HTML5-Videowiedergabe.</video></div>
   </div>
   <div class="preview-gallery">
-    <figure class="preview-shot"><div class="shot-index">02</div><img src="/preview-1-4k.webp" alt="SPOTIKY Preview auf einem Smartphone in 4K"></figure>
-    <figure class="preview-shot"><div class="shot-index">03</div><img src="/preview-2-4k.webp" alt="SPOTIKY Premium Ansicht auf einem Smartphone in 4K"></figure>
+    <figure class="preview-shot"><div class="shot-index">02</div><img src="/preview-1-4k.webp" alt="SPOTIKY Premium Pack Vorschau auf einem Smartphone" loading="lazy" decoding="async"></figure>
+    <figure class="preview-shot"><div class="shot-index">03</div><img src="/preview-2-4k.webp" alt="SPOTIKY Premium Ansicht auf einem Smartphone" loading="lazy" decoding="async"></figure>
   </div>
 </section>
 </main>
-<footer><div class="footer-brand">SPOTIKY<span>///</span></div><div><a href="#" data-modal="impressum">IMPRESSUM</a><a href="#" data-modal="privacy">DATENSCHUTZ</a></div><small>© 2026 SPOTIKY. All rights reserved.</small><p>Spotiky ist ein eigenständiger Name und keine offizielle Spotify-Seite. Die verwendete Grafik ist ein Design-Element und stellt keine offizielle Partnerschaft dar.</p></footer>
+<footer><div class="footer-brand">SPOTIKY<span>///</span></div><div><a href="#" data-modal="impressum">IMPRESSUM</a><a href="#" data-modal="privacy">DATENSCHUTZ</a></div><small>© 2026 SPOTIKY. All rights reserved.</small><p>SPOTIKY ist eine eigenständige digitale Marke und keine offizielle Spotify-Seite. Die verwendete Grafik ist ein Design-Element und stellt keine offizielle Partnerschaft dar.</p></footer>
 <div class="modal" id="impressum"><div class="modal-box"><button class="close">×</button><h2>IMPRESSUM</h2><p><b>SPOTIKY</b></p><p>E-Mail: support.spokify@gmail.com</p><p>Die gesetzlich erforderlichen Anbieterangaben müssen vom Betreiber ergänzt werden.</p></div></div>
-<div class="modal" id="privacy"><div class="modal-box"><button class="close">×</button><h2>DATENSCHUTZ</h2><p>Diese Demo speichert keine Zahlungsdaten selbst. Die Zahlung wird über den konfigurierten Zahlungsdienst abgewickelt. Für eine echte Veröffentlichung muss eine vollständige Datenschutzerklärung passend zu Hosting, Zahlungsanbieter, Logs und Kontaktformular ergänzt werden.</p></div></div>
+<div class="modal" id="privacy"><div class="modal-box"><button class="close">×</button><h2>DATENSCHUTZ</h2><p>Diese Demo speichert keine Zahlungsdaten selbst. Die Zahlung wird über den konfigurierten Zahlungsdienst abgewickelt. Für eine echte Veröffentlichung muss eine vollständige Datenschutzerklärung passend zu Hosting, Zahlungsanbieter, Logs und Kontakt ergänzt werden.</p></div></div>
 <script src="/script.js" defer></script>
 </body>
 </html>
