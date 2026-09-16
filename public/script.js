@@ -1,28 +1,27 @@
 ```javascript
 const buyButtons = document.querySelectorAll("[data-buy]");
 
-function resetBuyButtons() {
-  buyButtons.forEach((button) => {
-    button.disabled = false;
-    button.innerHTML = button.dataset.original || button.innerHTML;
-  });
-}
-
 buyButtons.forEach((button) => {
-  button.dataset.original = button.innerHTML;
+  const originalHTML = button.innerHTML;
 
   button.addEventListener("click", async () => {
+    if (button.disabled) return;
+
     button.disabled = true;
     button.textContent = "PAYPAL WIRD GELADEN…";
 
     try {
       const response = await fetch("/api/create-paypal-order", {
         method: "POST",
-        headers: { "Accept": "application/json" },
+        headers: {
+          "Accept": "application/json"
+        },
         credentials: "same-origin"
       });
 
-      if (!response.ok) throw new Error("PayPal checkout unavailable");
+      if (!response.ok) {
+        throw new Error("PayPal checkout unavailable");
+      }
 
       const data = await response.json();
 
@@ -30,19 +29,29 @@ buyButtons.forEach((button) => {
         throw new Error("Invalid PayPal approval URL");
       }
 
-      window.location.assign(data.url);
+      window.location.href = data.url;
+
     } catch (error) {
       console.error(error);
+
       button.disabled = false;
-      button.innerHTML = button.dataset.original;
+      button.innerHTML = originalHTML;
+
       alert("Der PayPal-Checkout ist momentan nicht erreichbar. Bitte versuche es später erneut.");
     }
   });
 });
 
-/* Wichtig: Beim Zurückkehren von PayPal Buttons wieder aktivieren */
-window.addEventListener("pageshow", () => {
-  resetBuyButtons();
+/* Button beim Zurückkehren von PayPal wieder aktivieren */
+window.addEventListener("pageshow", function () {
+  buyButtons.forEach((button) => {
+    button.disabled = false;
+    button.removeAttribute("disabled");
+
+    if (button.textContent === "PAYPAL WIRD GELADEN…") {
+      button.innerHTML = button.dataset.originalText || "PACK FÜR 5,00 €";
+    }
+  });
 });
 
 document.querySelectorAll("[data-modal]").forEach((link) => {
@@ -54,7 +63,9 @@ document.querySelectorAll("[data-modal]").forEach((link) => {
 
 document.querySelectorAll(".modal").forEach((modal) => {
   modal.addEventListener("click", (event) => {
-    if (event.target === modal) modal.classList.remove("open");
+    if (event.target === modal) {
+      modal.classList.remove("open");
+    }
   });
 
   modal.querySelector(".close")?.addEventListener("click", () => {
@@ -76,7 +87,8 @@ document.querySelectorAll(".magnetic").forEach((element) => {
     const x = event.clientX - rect.left - rect.width / 2;
     const y = event.clientY - rect.top - rect.height / 2;
 
-    element.style.transform = `translate(${x * 0.08}px,${y * 0.08}px)`;
+    element.style.transform =
+      `translate(${x * 0.08}px,${y * 0.08}px)`;
   });
 
   element.addEventListener("pointerleave", () => {
