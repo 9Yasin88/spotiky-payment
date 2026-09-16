@@ -1,4 +1,4 @@
-```javascript
+
 const buyButtons = document.querySelectorAll("[data-buy]");
 
 buyButtons.forEach((button) => {
