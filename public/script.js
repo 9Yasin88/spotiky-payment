@@ -88,4 +88,5 @@ document.querySelectorAll(".magnetic").forEach((element) => {
     element.style.transform = "";
   });
 });
-```
+
+
