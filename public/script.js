@@ -1,9 +1,18 @@
+```javascript
 const buyButtons = document.querySelectorAll("[data-buy]");
 
+function resetBuyButtons() {
+  buyButtons.forEach((button) => {
+    button.disabled = false;
+    button.innerHTML = button.dataset.original || button.innerHTML;
+  });
+}
+
 buyButtons.forEach((button) => {
+  button.dataset.original = button.innerHTML;
+
   button.addEventListener("click", async () => {
     button.disabled = true;
-    const original = button.innerHTML;
     button.textContent = "PAYPAL WIRD GELADEN…";
 
     try {
@@ -14,7 +23,9 @@ buyButtons.forEach((button) => {
       });
 
       if (!response.ok) throw new Error("PayPal checkout unavailable");
+
       const data = await response.json();
+
       if (!data.url || !data.url.startsWith("https://www.paypal.com/")) {
         throw new Error("Invalid PayPal approval URL");
       }
@@ -23,10 +34,15 @@ buyButtons.forEach((button) => {
     } catch (error) {
       console.error(error);
       button.disabled = false;
-      button.innerHTML = original;
+      button.innerHTML = button.dataset.original;
       alert("Der PayPal-Checkout ist momentan nicht erreichbar. Bitte versuche es später erneut.");
     }
   });
+});
+
+/* Wichtig: Beim Zurückkehren von PayPal Buttons wieder aktivieren */
+window.addEventListener("pageshow", () => {
+  resetBuyButtons();
 });
 
 document.querySelectorAll("[data-modal]").forEach((link) => {
@@ -40,12 +56,17 @@ document.querySelectorAll(".modal").forEach((modal) => {
   modal.addEventListener("click", (event) => {
     if (event.target === modal) modal.classList.remove("open");
   });
-  modal.querySelector(".close")?.addEventListener("click", () => modal.classList.remove("open"));
+
+  modal.querySelector(".close")?.addEventListener("click", () => {
+    modal.classList.remove("open");
+  });
 });
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
-    document.querySelectorAll(".modal.open").forEach((modal) => modal.classList.remove("open"));
+    document.querySelectorAll(".modal.open").forEach((modal) => {
+      modal.classList.remove("open");
+    });
   }
 });
 
@@ -54,9 +75,12 @@ document.querySelectorAll(".magnetic").forEach((element) => {
     const rect = element.getBoundingClientRect();
     const x = event.clientX - rect.left - rect.width / 2;
     const y = event.clientY - rect.top - rect.height / 2;
+
     element.style.transform = `translate(${x * 0.08}px,${y * 0.08}px)`;
   });
+
   element.addEventListener("pointerleave", () => {
     element.style.transform = "";
   });
 });
+```
