@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://spotiky-payments.onrender.com/sitemap.xml
