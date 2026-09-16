@@ -1,0 +1,41 @@
+name: Build 4K preview media
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  upscale-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install media tools
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Build 4K vertical video
+        run: |
+          ffmpeg -y -i public/preview.mp4 \
+            -vf "scale=2160:4678:flags=lanczos,setsar=1" \
+            -c:v libx264 -preset medium -crf 18 -pix_fmt yuv420p \
+            -movflags +faststart -an public/preview-4k.mp4
+
+      - name: Build 4K screenshots
+        run: |
+          ffmpeg -y -i public/preview-1.svg -vf "scale=2160:-1:flags=lanczos" -c:v libwebp -q:v 2 public/preview-1-4k.webp
+          ffmpeg -y -i public/preview-2.jpg -vf "scale=2160:-1:flags=lanczos" -c:v libwebp -q:v 2 public/preview-2-4k.webp
+
+      - name: Commit generated media
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/preview-4k.mp4 public/preview-1-4k.webp public/preview-2-4k.webp
+          git diff --cached --quiet || git commit -m "Build high-quality 4K preview media"
+          git push
