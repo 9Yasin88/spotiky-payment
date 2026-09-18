@@ -61,6 +61,12 @@ app.use(rateLimit({
 }));
 
 app.use(express.json({ limit: "20kb" }));
+
+// Serve robots.txt explicitly so the crawler always receives the intended rules.
+app.get("/robots.txt", (req, res) => {
+  res.type("text/plain").send(`User-agent: *\nAllow: /\n\nSitemap: ${BASE_URL}/sitemap.xml\n`);
+});
+
 app.use(express.static(path.join(__dirname, "public"), { extensions: ["html"] }));
 
 const checkoutLimiter = rateLimit({
